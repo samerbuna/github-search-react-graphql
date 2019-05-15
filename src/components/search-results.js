@@ -10,4 +10,10 @@ const SearchResults = ({ search }) => {
   );
 };
 
+SearchResults.GraphQL = `
+  fragment SearchResultsFragment on SearchResultItemConnection {
+    userCount
+  }
+`;
+
 export default SearchResults;

@@ -24,9 +24,11 @@ const Root = () => {
 Root.GraphQL = `
   query SearhGitHubUsers ($query: String!) {
     search(type: USER, query: $query, first: 100) {
-      userCount
+      ...SearchResultsFragment
     }
   }
+
+  ${SearchResults.GraphQL}
 `;
 
 export default Root;
