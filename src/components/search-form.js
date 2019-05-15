@@ -1,10 +1,15 @@
 import React from 'react';
 
-const SearchForm = () => {
+const SearchForm = ({ onSubmit }) => {
+  const handleSubmit = event => {
+    event.preventDefault();
+    const form = event.target;
+    onSubmit(form.query.value);
+  };
   return (
     <div className="search-form">
-      <form>
-        <input type="search" placeholder="Search GitHub Users" />
+      <form onSubmit={handleSubmit}>
+        <input type="search" name="query" placeholder="Search GitHub Users" />
         <button type="submit">Search</button>
       </form>
     </div>
