@@ -1,14 +1,14 @@
 import React from 'react';
 
 import PaginationLinks from './pagination-links.js';
-import UserList from './user-list.js';
+import SearchResultList from './search-result-list.js';
 
 const SearchResults = ({ search }) => {
   return (
     <div className="search-results">
       <div className="main">
-        <div>Total Users: {search.userCount}</div>
-        <UserList edges={search.edges} />
+        <div className="total-count">Total Matching: {search.userCount}</div>
+        <SearchResultList edges={search.edges} />
         <PaginationLinks {...search.pageInfo} />
       </div>
     </div>
@@ -22,12 +22,12 @@ SearchResults.GraphQL = `
       ...PaginationLinksFragment
     }
     edges {
-      ...UserListFragment
+      ...SearchResultListFragment
     }
   }
 
   ${PaginationLinks.GraphQL}
-  ${UserList.GraphQL}
+  ${SearchResultList.GraphQL}
 `;
 
 export default SearchResults;
