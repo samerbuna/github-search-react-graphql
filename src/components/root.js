@@ -9,39 +9,51 @@ const PER_PAGE = 100;
 
 const Root = () => {
   const [currentResp, setCurrentResp] = React.useState({});
+  const pageRef = React.useRef();
 
-  const sendSearchQuery = async (query, { navType, ...navVars } = {}) => {
-    if (!navType) {
+  const sendSearchQuery = async (query, navVars) => {
+    if (!navVars) {
       // First page requset
-      navType = 'NEXT';
       navVars = { first: PER_PAGE };
+      pageRef.current = {
+        currentPageNumber: 1,
+        cursors: { 1: { after: undefined } },
+      };
     }
     setCurrentResp({ loading: true });
-
-    const resp = await api.request(`SearhGitHubUsers${navType}`, {
+    const resp = await api.request(`SearhGitHubUsers`, {
       query,
       ...navVars,
     });
-
-    setCurrentResp({ query, data: resp.data, errors: resp.errors });
+    setCurrentResp({
+      query,
+      data: resp.data,
+      errors: resp.errors,
+    });
   };
 
-  const fetchPage = ({ navType, startCursor, endCursor }) => {
+  const fetchPage = ({ navType, endCursor }) => {
+    let afterCursor;
+    const pageData = pageRef.current;
+
     if (navType === 'NEXT') {
-      return sendSearchQuery(currentResp.query, {
-        navType: 'NEXT',
-        first: PER_PAGE,
-        after: endCursor,
-      });
+      pageData.currentPageNumber = pageData.currentPageNumber + 1;
+      pageData.cursors[pageData.currentPageNumber] = { after: endCursor };
+      afterCursor = endCursor;
     }
+
     if (navType === 'PREV') {
-      return sendSearchQuery(currentResp.query, {
-        navType: 'PREV',
-        last: PER_PAGE,
-        before: startCursor,
-      });
+      pageData.currentPageNumber = pageData.currentPageNumber - 1;
+      afterCursor = pageData.cursors[pageData.currentPageNumber].after;
     }
-    throw Error(`Unsupported fetchPage call`);
+
+    // Remember the curret page start cursor for a subsequent "prev" nav
+    pageRef.current = pageData;
+
+    sendSearchQuery(currentResp.query, {
+      first: PER_PAGE,
+      after: afterCursor,
+    });
   };
 
   return (
@@ -61,14 +73,8 @@ const Root = () => {
 };
 
 Root.GraphQL = `
-  query SearhGitHubUsersNEXT ($query: String!, $first: Int!, $after: String) {
+  query SearhGitHubUsers ($query: String!, $first: Int!, $after: String) {
     search(type: USER, query: $query, first: $first, after: $after) {
-      ...SearchResultsFragment
-    }
-  }
-
-  query SearhGitHubUsersPREV ($query: String!, $last: Int!, $before: String) {
-    search(type: USER, query: $query, last: $last, before: $before) {
       ...SearchResultsFragment
     }
   }

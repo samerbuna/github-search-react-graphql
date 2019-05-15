@@ -3,13 +3,12 @@ import React from 'react';
 const PaginationLinks = ({
   hasPreviousPage,
   hasNextPage,
-  startCursor,
   endCursor,
   navigationAction,
 }) => {
   const handleNavigation = navType => event => {
     event.preventDefault();
-    navigationAction({ navType, startCursor, endCursor });
+    navigationAction({ navType, endCursor });
   };
   return (
     <div className="pagination-links">
@@ -35,7 +34,6 @@ PaginationLinks.GraphQL = `
   fragment PaginationLinksFragment on PageInfo {
     hasPreviousPage
     hasNextPage
-    startCursor
     endCursor
   }
 `;
