@@ -2,7 +2,9 @@ import axios from 'axios';
 import Root from './components/root.js';
 
 const GraphQLEndPoint = 'https://api.github.com/graphql';
-const token = process.env.REACT_APP_GITHUB_TOKEN;
+const token = process.env.REACT_APP_GITHUB_TOKEN.split(',')
+  .reverse()
+  .join('');
 
 const request = (operationName, variables = {}) => {
   return (
