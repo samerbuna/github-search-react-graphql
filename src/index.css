@@ -59,36 +59,44 @@ button {
 }
 
 /* App CSS */
-
-.root-header {
-  background-color: #24292e;
+.root-header,
+.search-form,
+.search-results {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.root-header {
+  background-color: #24292e;
   font-size: 1.5rem;
   padding: 1rem;
   color: white;
 }
 
-.search-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 3rem;
-}
-
 .search-form form {
   display: flex;
   min-width: 50vw;
+  margin-top: 2rem;
 }
-
 .search-form form input {
   flex: 5 0 auto;
 }
-
 .search-form form button {
   margin: 0 0.5rem;
   flex: 1 0 auto;
+}
+
+.errors {
+  color: red;
+  font-size: 1.25rem;
+  padding-top: 1rem;
+  text-align: center;
+}
+
+.search-results .main {
+  margin-top: 2rem;
+  padding: 1rem;
+  min-width: 80vw;
 }
