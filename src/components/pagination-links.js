@@ -5,8 +5,30 @@ const PaginationLinks = ({
   hasNextPage,
   startCursor,
   endCursor,
+  navigationAction,
 }) => {
-  return <div className="pagination-links">Prev/Next</div>;
+  const handleNavigation = navType => event => {
+    event.preventDefault();
+    navigationAction({ navType, startCursor, endCursor });
+  };
+  return (
+    <div className="pagination-links">
+      <button
+        onClick={handleNavigation('PREV')}
+        className="previous-page"
+        disabled={!hasPreviousPage}
+      >
+        Prev
+      </button>
+      <button
+        onClick={handleNavigation('NEXT')}
+        className="next-page"
+        disabled={!hasNextPage}
+      >
+        Next
+      </button>
+    </div>
+  );
 };
 
 PaginationLinks.GraphQL = `

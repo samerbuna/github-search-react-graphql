@@ -1,20 +1,17 @@
 import React from 'react';
 
-const SearchForm = ({ onSubmit }) => {
-  const [loading, setLoading] = React.useState(false);
-  const handleSubmit = async event => {
+const SearchForm = ({ disabled, onSubmit }) => {
+  const handleSubmit = event => {
     event.preventDefault();
-    setLoading(true);
     const form = event.target;
-    await onSubmit(form.query.value);
-    setLoading(false);
+    onSubmit(form.query.value);
   };
   return (
     <div className="search-form">
       <form onSubmit={handleSubmit}>
         <input type="search" name="query" placeholder="Search GitHub Users" />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Search...' : 'Search'}
+        <button type="submit" disabled={disabled}>
+          Search
         </button>
       </form>
     </div>

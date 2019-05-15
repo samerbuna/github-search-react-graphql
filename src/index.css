@@ -33,7 +33,6 @@ img {
 }
 
 /* Minimal form style */
-
 button,
 input {
   font-family: inherit;
@@ -87,6 +86,13 @@ button {
 .search-form form button {
   margin: 0 0.5rem;
   flex: 1 0 auto;
+}
+
+.loading {
+  font-size: 1.5rem;
+  color: #555;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .errors {
@@ -146,5 +152,20 @@ button {
 }
 
 .pagination-links {
-  padding-top: 0.75rem;
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 720px) {
+  .root-header {
+    padding: 0.5rem;
+  }
+  .search-form form {
+    display: flex;
+    margin: 1rem 0.5rem;
+  }
+  .user-location-info {
+    display: none;
+  }
 }

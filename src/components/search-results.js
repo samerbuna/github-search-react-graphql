@@ -3,13 +3,16 @@ import React from 'react';
 import PaginationLinks from './pagination-links.js';
 import SearchResultList from './search-result-list.js';
 
-const SearchResults = ({ search }) => {
+const SearchResults = ({ search, navigationAction }) => {
   return (
     <div className="search-results">
       <div className="main">
         <div className="total-count">Total Matching: {search.userCount}</div>
         <SearchResultList edges={search.edges} />
-        <PaginationLinks {...search.pageInfo} />
+        <PaginationLinks
+          {...search.pageInfo}
+          navigationAction={navigationAction}
+        />
       </div>
     </div>
   );
